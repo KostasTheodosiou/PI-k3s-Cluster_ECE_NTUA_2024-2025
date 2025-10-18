@@ -1,0 +1,25 @@
+--first step: dhcp server
+
+sudo apt install isc-dhcp-server
+
+Τα configurations μπαίνουν στον φάκελο /etc/dhcp/dhcpd.conf
+
+systemctl start isc-dhcp-server
+
+--second step: tftp server
+
+sudo apt install tftp-hpa
+
+sudo systemctl start tftpd-hpa
+sudo systemctl enable tftpd-hpa
+
+configuration στο /etc/default/tftp-hpa
+
+--third step: nfs server
+
+sudo apt install nfs-kernel-server
+
+sudo systemctl start nfs-kernel-server
+
+configuration: /etc/exports
+
