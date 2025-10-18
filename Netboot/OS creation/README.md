@@ -28,7 +28,6 @@ After using `kpartx` on the image, the result is usually something like:
 add map loop0p1 (253:0): 0 204800 linear 7:0 2048
 add map loop0p2 (253:1): 0 1847296 linear 7:0 206848
 
-
 ---
 
 ## Step 2: Mount the Partitions
@@ -96,3 +95,34 @@ The `commandline.txt` file contains several important kernel parameters that con
 - **`rootwait`** - Instructs the kernel to wait for the root device to become available before attempting to mount it, allowing time for network initialization.
 
 - **`elevator=deadline`** - Sets the I/O scheduler to deadline mode, which can improve performance for NFS-based root filesystems by optimizing disk I/O request handling.
+
+
+# Building OS Images for Devices
+
+## Single Device
+
+To build a full image for a single device, run:
+
+```bash
+./pi_boot.sh <PI_NAME> <MAC_ADDRESS> <SERIAL_NUMBER>
+```
+
+* `<PI_NAME>` → Name of the Raspberry Pi
+* `<MAC_ADDRESS>` → Device MAC address
+* `<SERIAL_NUMBER>` → Device serial number
+
+---
+
+## Multiple Devices
+
+To create multiple images automatically, run:
+
+```bash
+./run_multiple.sh <base_pattern> <start_num> <end_num>
+```
+
+* `<base_pattern>` → Base name pattern for the devices
+* `<start_num>` → Starting number for device naming
+* `<end_num>` → Ending number for device naming
+
+

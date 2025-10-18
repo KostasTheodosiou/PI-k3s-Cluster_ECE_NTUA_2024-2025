@@ -10,26 +10,26 @@ if [ ! -f "$PUBKEY" ]; then
 fi
 
 # Define the target directories (edit as needed)
-#DIRS=(
-#	"/mnt/netboot_common/nfs/green1/home/ubuntu/.ssh"
-#	"/mnt/netboot_common/nfs/green2/home/ubuntu/.ssh"
-#	"/mnt/netboot_common/nfs/green3/home/ubuntu/.ssh"
-#	"/mnt/netboot_common/nfs/green4/home/ubuntu/.ssh"
-#	"/mnt/netboot_common/nfs/green5/home/ubuntu/.ssh"
-#	"/mnt/netboot_common/nfs/green6/home/ubuntu/.ssh"
-#	"/mnt/netboot_common/nfs/green7/home/ubuntu/.ssh"
-#	"/mnt/netboot_common/nfs/green8/home/ubuntu/.ssh"
-#	"/mnt/netboot_common/nfs/yellow1/home/ubuntu/.ssh"
-#	"/mnt/netboot_common/nfs/yellow2/home/ubuntu/.ssh"
-#	"/mnt/netboot_common/nfs/yellow3/home/ubuntu/.ssh"
-#	"/mnt/netboot_common/nfs/yellow4/home/ubuntu/.ssh"
-#	"/mnt/netboot_common/nfs/yellow5/home/ubuntu/.ssh"
-#	"/mnt/netboot_common/nfs/yellow6/home/ubuntu/.ssh"
-#	"/mnt/netboot_common/nfs/yellow7/home/ubuntu/.ssh"
-#	"/mnt/netboot_common/nfs/yellow8/home/ubuntu/.ssh"
-#)
-
 DIRS=(
+	"/mnt/netboot_common/nfs/green1/home/ubuntu/.ssh"
+	"/mnt/netboot_common/nfs/green2/home/ubuntu/.ssh"
+	"/mnt/netboot_common/nfs/green3/home/ubuntu/.ssh"
+	"/mnt/netboot_common/nfs/green4/home/ubuntu/.ssh"
+	"/mnt/netboot_common/nfs/green5/home/ubuntu/.ssh"
+	"/mnt/netboot_common/nfs/green6/home/ubuntu/.ssh"
+	"/mnt/netboot_common/nfs/green7/home/ubuntu/.ssh"
+	"/mnt/netboot_common/nfs/green8/home/ubuntu/.ssh"
+	"/mnt/netboot_common/nfs/yellow1/home/ubuntu/.ssh"
+	"/mnt/netboot_common/nfs/yellow2/home/ubuntu/.ssh"
+	"/mnt/netboot_common/nfs/yellow3/home/ubuntu/.ssh"
+	"/mnt/netboot_common/nfs/yellow4/home/ubuntu/.ssh"
+	"/mnt/netboot_common/nfs/yellow5/home/ubuntu/.ssh"
+	"/mnt/netboot_common/nfs/yellow6/home/ubuntu/.ssh"
+	"/mnt/netboot_common/nfs/yellow7/home/ubuntu/.ssh"
+	"/mnt/netboot_common/nfs/yellow8/home/ubuntu/.ssh"
+)
+
+DIRS_root=(
        "/mnt/netboot_common/nfs/green1/root/.ssh"
        "/mnt/netboot_common/nfs/green2/root/.ssh"
        "/mnt/netboot_common/nfs/green3/root/.ssh"
