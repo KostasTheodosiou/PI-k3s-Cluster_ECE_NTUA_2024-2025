@@ -36,6 +36,7 @@ if [ "$#" -ne 1 ]; then
 fi
 
 Pi_name=$1
+Password='fkXUuqr6OP50jwqQ'
 
 # Ask for confirmation
     read -p "Are you sure you want to restart "$Pi_name"? (y/n) " -n 1 -r
@@ -54,7 +55,7 @@ if [[ -z "${name_id_map[$Pi_name]}" ]]; then
 		for ((i=1; i<=8; i++)); do	
 			echo "Restarting yellow"$Pi_num" ("$Pi_ID")" 
 			# echo "swctrl poe restart id $Pi_ID"
- 			sshpass -p 'fkXUuqr6OP50jwqQ' ssh ubnt@192.168.2.254 "swctrl poe restart id $Pi_ID" &
+ 			sshpass -p $Password ssh ubnt@192.168.2.254 "swctrl poe restart id $Pi_ID" &
 			((Pi_num++))
 			((Pi_ID += 2))
   			wait
@@ -67,7 +68,7 @@ if [[ -z "${name_id_map[$Pi_name]}" ]]; then
 		for ((i=1; i<=8; i++)); do
 			#echo "swctrl poe restart id $Pi_ID"
 			echo "Restarting green"$Pi_num" ("$Pi_ID")" 
- 			sshpass -p 'fkXUuqr6OP50jwqQ' ssh ubnt@192.168.2.254 "swctrl poe restart id $Pi_ID" &
+ 			sshpass -p $Password ssh ubnt@192.168.2.254 "swctrl poe restart id $Pi_ID" &
 			((Pi_num++))
 			((Pi_ID += 2))
   			wait
@@ -77,19 +78,19 @@ if [[ -z "${name_id_map[$Pi_name]}" ]]; then
     elif [ "$Pi_name" = "all" ]; then
 		Pi_ID=${name_id_map[login]}
         echo "Restarting $node ($Pi_ID)"
-        sshpass -p 'fkXUuqr6OP50jwqQ' ssh ubnt@192.168.2.254 "swctrl poe restart id $Pi_ID" &
+        sshpass -p $Password ssh ubnt@192.168.2.254 "swctrl poe restart id $Pi_ID" &
         wait
         sleep 10
 		Pi_ID=${name_id_map[mlops_master]}
         echo "Restarting $node ($Pi_ID)"
-        sshpass -p 'fkXUuqr6OP50jwqQ' ssh ubnt@192.168.2.254 "swctrl poe restart id $Pi_ID" &
+        sshpass -p $Password ssh ubnt@192.168.2.254 "swctrl poe restart id $Pi_ID" &
         wait
         sleep 5
         for node in "${!name_id_map[@]}"; do
             if [ "$node" != "backup" ] && [ "$node" != "login" ] && [ "$node" != "mlops_master" ]; then
                 Pi_ID=${name_id_map[$node]}
                 echo "Restarting $node ($Pi_ID)"
-                sshpass -p 'fkXUuqr6OP50jwqQ' ssh ubnt@192.168.2.254 "swctrl poe restart id $Pi_ID" &
+                sshpass -p $Password ssh ubnt@192.168.2.254 "swctrl poe restart id $Pi_ID" &
                 wait
                 sleep 5
             fi
@@ -102,11 +103,5 @@ if [[ -z "${name_id_map[$Pi_name]}" ]]; then
 
 else 
 
-    # Print Pi ID (debug) 
-    # echo "${name_id_map[$Pi_name]}" 
-
-    # Print command for debug
-    # echo "swctrl poe restart id ${name_id_map[$Pi_name]}"
-
-    sshpass -p 'fkXUuqr6OP50jwqQ' ssh ubnt@192.168.2.254 "swctrl poe restart id ${name_id_map[$Pi_name]}"
+    sshpass -p $Password ssh ubnt@192.168.2.254 "swctrl poe restart id ${name_id_map[$Pi_name]}"
 fi
