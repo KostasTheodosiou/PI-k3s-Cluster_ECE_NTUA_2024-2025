@@ -1,0 +1,27 @@
+---
+- name: Update K3s container registry config on agents
+  hosts: k3s_agents
+  become: true
+  tasks:
+
+    - name: Ensure /etc/rancher/k3s directory exists
+      file:
+        path: /etc/rancher/k3s
+        state: directory
+        mode: 0755
+
+    - name: Copy registries.yaml to K3s agent
+      copy:
+        content: |
+          mirrors:
+            "192.168.2.3:5000":
+              endpoint:
+                - "http://192.168.2.3:5000"
+          configs:
+            "192.168.2.3:5000":
+              tls:
+                insecure_skip_verify: true
+        dest: /etc/rancher/k3s/registries.yaml
+        owner: root
+        group: root
+        mode: 0644

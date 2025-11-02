@@ -1,0 +1,47 @@
+---
+- name: Install nfs-common on k3s agents
+  hosts: k3s_agents
+  become: yes
+  vars:
+    # You can add any custom variables here
+    nfs_packages:
+      - nfs-common
+    
+  tasks:
+    - name: Update package cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600  # 1 hour
+
+    - name: Install NFS common utilities
+      apt:
+        name: "{{ nfs_packages }}"
+        state: present
+        update_cache: yes
+
+    - name: Ensure NFS services are enabled and started
+      systemd:
+        name: nfs-common
+        enabled: yes
+        state: started
+
+    - name: Verify nfs-common installation
+      command: dpkg -l nfs-common
+      register: nfs_installed
+      changed_when: false
+
+    - name: Show installation status
+      debug:
+        msg: "nfs-common successfully installed on {{ inventory_hostname }}"
+      when: nfs_installed.rc == 0
+
+    - name: Check NFS capabilities
+      command: showmount --version
+      register: showmount_check
+      changed_when: false
+      ignore_errors: yes
+
+    - name: Show NFS tools availability
+      debug:
+        msg: "NFS tools available on {{ inventory_hostname }}"
+      when: showmount_check.rc == 0

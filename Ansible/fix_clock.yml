@@ -1,0 +1,20 @@
+---
+- name: Ensure system time is correct using systemd-timesyncd
+  hosts: k3s_agents
+  become: yes
+
+  tasks:
+    - name: Install systemd-timesyncd (if not already installed)
+      apt:
+        name: systemd-timesyncd
+        state: present
+        update_cache: yes
+  
+    - name: Enable and start systemd-timesyncd
+      systemd:
+        name: systemd-timesyncd
+        enabled: yes
+        state: started
+
+    - name: Enable NTP time sync with timedatectl
+      command: timedatectl set-ntp true

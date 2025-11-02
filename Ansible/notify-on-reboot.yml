@@ -1,0 +1,67 @@
+---
+- name: Set up cluster status monitoring
+  hosts: k3s_agents
+  become: yes  # Added become: yes to run as root
+  vars:
+    local_script_path: "send-status.sh"  # Relative path to your local script
+    remote_script_path: /usr/local/bin/send-status.sh
+    discord_webhook_url: "https://discord.com/api/webhooks/1415617252291772426/6-WnVvmYQliuUUxRMb1bZqwy1NMqRRUbjmd_9wbl7u2ziRRrj_-inw7J1HzGOpxehOUx"
+    service_name: send-status
+
+  tasks:
+
+    - name: Deploy status check script
+      copy:
+        src: "{{ local_script_path }}"
+        dest: "{{ remote_script_path }}"
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Create systemd service file
+      copy:  # Changed from template to copy since we're not using variables
+        content: |
+          [Unit]
+          Description=Send Cluster Status on Boot
+          After=network.target
+          Wants=network.target
+
+          [Service]
+          Type=oneshot
+          ExecStart={{ remote_script_path }}
+          User=root
+          Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+          [Install]
+          WantedBy=multi-user.target
+        dest: /etc/systemd/system/{{ service_name }}.service
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Reload systemd daemon
+      systemd:
+        daemon_reload: yes
+
+    - name: Enable send-status service for boot time
+      systemd:
+        name: "{{ service_name }}"
+        enabled: yes
+
+          #- name: Add hourly cron job
+          #cron:
+          #name: "Hourly cluster status check"
+          #job: "{{ remote_script_path }}"
+          #user: root
+          #minute: "0"
+          #hour: "*"
+
+    - name: Test the script execution
+      command: "{{ remote_script_path }}"
+      register: script_test
+      changed_when: false
+      ignore_errors: yes
+
+    - name: Show script test result
+      debug:
+        msg: "Script test completed with return code {{ script_test.rc }} - Output: {{ script_test.stdout }}"

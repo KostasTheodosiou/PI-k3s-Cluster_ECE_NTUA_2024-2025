@@ -44,3 +44,10 @@ Automates fixing permissions for kernel images on multiple worker nodes.
 - Loops through all worker nodes (`green1..green8` and `yellow1..yellow8`).
 - Creates a `postinst` hook script `zzz-chmod-vmlinuz` if it does not exist.
 - Sets `/boot/vmlinuz-*` files to `0644` after kernel installation.
+
+### 5. Reboot notify discord
+
+**Filename:** `send-status.sh`
+**Description:**
+
+sends a notification to a specified Discord webhook after a system reboot. It gathers basic system information — hostname, IP address, and current time — and formats it into a Discord embed message. The script includes retry logic (up to 3 attempts with 10-second delays) to ensure the message is successfully delivered even if the first attempts fail.
